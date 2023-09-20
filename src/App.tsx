@@ -3,11 +3,11 @@ import { useState, type MouseEvent } from 'react';
 interface Dots {
   x: number;
   y: number;
-  // color: string;
 }
 
 function App() {
   const [dots, setDots] = useState<Dots[]>([]);
+  const [cache, setCache] = useState<Dots[][]>([]);
 
   const draw = (e: MouseEvent) => {
     const { clientX, clientY } = e;
