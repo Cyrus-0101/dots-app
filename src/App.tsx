@@ -14,10 +14,20 @@ function App() {
     setDots([...dots, { x: clientX, y: clientY }]);
   };
 
+  const undo = () => {
+    if (dots.length > 0) {
+      const newDots = [...dots];
+      const lastDot = newDots.pop() as Dots;
+
+      Promise.all([setCache([...cache, lastDot]), setDots(newDots)]);
+    }
+  };
+
+
   return (
     <div className='App'>
       <div id='button-wrapper'>
-        <button>Undo</button>
+        <button onClick={undo}>Undo</button>
         <button>Redo</button>
       </div>
       <div id='click-area' onClick={draw}>
