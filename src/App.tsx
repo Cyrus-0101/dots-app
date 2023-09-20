@@ -7,7 +7,7 @@ interface Dots {
 
 function App() {
   const [dots, setDots] = useState<Dots[]>([]);
-  const [cache, setCache] = useState<Dots[][]>([]);
+  const [cache, setCache] = useState<Dots[]>([]);
 
   const draw = (e: MouseEvent) => {
     const { clientX, clientY } = e;
@@ -23,12 +23,20 @@ function App() {
     }
   };
 
+  const redo = () => {
+    if (cache.length > 0) {
+      const newCache = [...cache];
+      const lastDot = newCache.pop() as Dots;
+
+      Promise.all([setDots([...dots, lastDot]), setCache(newCache)]);
+    }
+  };
 
   return (
     <div className='App'>
       <div id='button-wrapper'>
         <button onClick={undo}>Undo</button>
-        <button>Redo</button>
+        <button onClick={redo}>Redo</button>
       </div>
       <div id='click-area' onClick={draw}>
         {dots.map(({ x, y }: Dots, i: number) => (
